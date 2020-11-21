@@ -25,7 +25,7 @@ Click this button to deploy the app to the DigitalOcean App Platform.
 As long as you left the default Autodeploy option enabled when you first launched this app, you can now make code changes and see them automatically reflected in your live application. During these automatic deployments, your application will never pause or stop serving request because the App Platform offers zero-downtime deployments.
 
 Here's an example code change you can make for this app:
-1. Edit [server.py](src/server.py)
+1. Edit [server.py](server.py)
 1. Change `Hello!` into another greeting.
 1. Commit the change to master. Normally it's a better practice to create a new branch for your change and then merge that branch to master after review, but for this demo you can commit to master directly.
 1. Visit https://cloud.digitalocean.com/apps and navigate to your sample-python app.
