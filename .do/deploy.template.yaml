@@ -4,5 +4,5 @@ spec:
   - environment_slug: python
     git:
       branch: main
-      repo_clone_url: https://github.com/digitalocean/fastapi-sqlalchemy-doapp.git
+      repo_clone_url: https://github.com/justinrmiller/fastapi-sqlalchemy-doapp.git
     name: fastapi-sqlalchemy-doapp
