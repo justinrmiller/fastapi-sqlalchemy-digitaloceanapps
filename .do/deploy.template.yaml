@@ -1,7 +1,7 @@
 spec:
   name: fastapi-sqlalchemy-doapp
   services:
-  - environment_slug: python
+  - environment_slug: python-3.8.6
     git:
       branch: main
       repo_clone_url: https://github.com/justinrmiller/fastapi-sqlalchemy-doapp.git

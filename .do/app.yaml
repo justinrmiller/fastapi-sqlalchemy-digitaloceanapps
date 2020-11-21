@@ -1,6 +1,6 @@
 name: fastapi-sqlalchemy-doapp
 services:
-- environment_slug: python
+- environment_slug: python-3.8.6
   github:
     branch: main
     deploy_on_push: true
