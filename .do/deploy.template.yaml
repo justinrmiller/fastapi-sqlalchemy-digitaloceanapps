@@ -1,0 +1,8 @@
+spec:
+  name: fastapi-sqlalchemy-digitaloceanapps
+  services:
+  - environment_slug: python
+    git:
+      branch: main
+      repo_clone_url: https://github.com/digitalocean/fastapi-sqlalchemy-digitaloceanapps.git
+    name: fastapi-sqlalchemy-digitaloceanapps
