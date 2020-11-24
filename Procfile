@@ -1,1 +1,1 @@
-web: gunicorn --worker-tmp-dir /tmp --config gunicorn_config.py app:app
+web: gunicorn --worker-tmp-dir /dev/shm --config -k uvicorn.workers.UvicornWorker gunicorn_config.py app:app
