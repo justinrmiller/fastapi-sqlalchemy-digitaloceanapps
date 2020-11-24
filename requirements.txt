@@ -1,3 +1,14 @@
 flake8
 pytest
 pytest-cov
+
+fastapi
+uvicorn
+gunicorn
+sqlalchemy
+async-exit-stack
+async-generator
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+python-dotenv
