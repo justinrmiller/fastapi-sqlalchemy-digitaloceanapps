@@ -5,6 +5,7 @@ pytest-cov
 fastapi
 uvicorn[standard]
 gunicorn
+loguru
 sqlalchemy
 async-exit-stack
 async-generator
