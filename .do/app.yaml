@@ -12,4 +12,4 @@ services:
     timeout_seconds: 5
     success_threshold: 3
     failure_threshold: 5
-    http_path: "/healthcheck"
+    http_path: /healthcheck
