@@ -1,3 +1,6 @@
+run:
+	python3 run.py
+
 test: pytest flake8
 
 pytest:

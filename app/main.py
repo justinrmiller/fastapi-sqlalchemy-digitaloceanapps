@@ -1,33 +1,12 @@
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-import sqlalchemy
-import databases
+import json
 
-from loguru import logger
+# from loguru import logger
 
-# SQLAlchemy specific code, as with any other app
-DATABASE_URL = "sqlite:///./test.db"
-# DATABASE_URL = "postgresql://user:password@postgresserver/db"
-
-database = databases.Database(DATABASE_URL)
-
-metadata = sqlalchemy.MetaData()
-
-notes = sqlalchemy.Table(
-    "notes",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("text", sqlalchemy.String),
-    sqlalchemy.Column("completed", sqlalchemy.Boolean),
-)
-
-
-engine = sqlalchemy.create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
-metadata.create_all(engine)
+from app.db import database, notes
 
 
 class NoteIn(BaseModel):
@@ -39,6 +18,10 @@ class Note(BaseModel):
     id: int
     text: str
     completed: bool
+
+
+class Notes(BaseModel):
+    notes: List[Note]
 
 
 app = FastAPI()
@@ -54,13 +37,14 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/notes/", response_model=List[Note])
+@app.get("/notes", response_model=Notes)
 async def read_notes():
     query = notes.select()
-    return await database.fetch_all(query)
+    retrieved_notes = await database.fetch_all(query)
+    return {"notes": retrieved_notes}
 
 
-@app.post("/notes/", response_model=Note)
+@app.post("/notes", response_model=Note)
 async def create_note(note: NoteIn):
     query = notes.insert().values(text=note.text, completed=note.completed)
     last_record_id = await database.execute(query)
@@ -69,10 +53,21 @@ async def create_note(note: NoteIn):
 
 @app.get("/")
 def root():
-    logger.info("Root called")
     return {"msg": "Hello World"}
 
 
 @app.get("/healthcheck")
-def healthcheck():
-    return {"status": "OK"}
+async def healthcheck():
+    cause = []
+
+    resp = await database.fetch_one("select 1")
+    if resp[0] != 1:
+        cause.append("BAD_DB")
+
+    if len(cause) == 0:
+        return {"status": "OK"}
+    else:
+        return HTTPException(
+            status_code=500,
+            detail=json.dumps(cause)
+        )
