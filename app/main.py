@@ -1,30 +1,31 @@
-from typing import List
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI
 
-import json
+from starlette.middleware.cors import CORSMiddleware
 
 # from loguru import logger
 
-from app.db import database, notes
-
-
-class NoteIn(BaseModel):
-    text: str
-    completed: bool
-
-
-class Note(BaseModel):
-    id: int
-    text: str
-    completed: bool
-
-
-class Notes(BaseModel):
-    notes: List[Note]
-
+from .routes import (
+    healthcheck,
+    notes,
+    root
+)
+from app.db import database
 
 app = FastAPI()
+
+origins = ['*']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(healthcheck.router, prefix="/healthcheck")
+app.include_router(notes.router, prefix="/notes")
+app.include_router(root.router, prefix="")
 
 
 @app.on_event("startup")
@@ -35,39 +36,3 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
-
-
-@app.get("/notes", response_model=Notes)
-async def read_notes():
-    query = notes.select()
-    retrieved_notes = await database.fetch_all(query)
-    return {"notes": retrieved_notes}
-
-
-@app.post("/notes", response_model=Note)
-async def create_note(note: NoteIn):
-    query = notes.insert().values(text=note.text, completed=note.completed)
-    last_record_id = await database.execute(query)
-    return {**note.dict(), "id": last_record_id}
-
-
-@app.get("/")
-def root():
-    return {"msg": "Hello World"}
-
-
-@app.get("/healthcheck")
-async def healthcheck():
-    cause = []
-
-    resp = await database.fetch_one("select 1")
-    if resp[0] != 1:
-        cause.append("BAD_DB")
-
-    if len(cause) == 0:
-        return {"status": "OK"}
-    else:
-        return HTTPException(
-            status_code=500,
-            detail=json.dumps(cause)
-        )
