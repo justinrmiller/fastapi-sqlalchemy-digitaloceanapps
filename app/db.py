@@ -2,9 +2,9 @@ import sqlalchemy
 import databases
 import os
 
-if os.getenv("database_url"):
+if os.getenv("DATABASE_URL"):
     # deployed in DigitalOcean
-    database_url = os.getenv("database_url")
+    database_url = os.getenv("DATABASE_URL")
     database = databases.Database(database_url)
     engine = sqlalchemy.create_engine(
         database_url
