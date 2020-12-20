@@ -7,7 +7,8 @@ if os.getenv("DATABASE_URL"):
     database_url = os.getenv("DATABASE_URL")
     database = databases.Database(database_url)
     engine = sqlalchemy.create_engine(
-        database_url
+        database_url,
+        connect_args={"sslmode": "require"}
     )
 else:
     # local dev
