@@ -1,11 +1,17 @@
 import sqlalchemy
 import databases
 import os
+import ssl
 
 if os.getenv("DATABASE_URL"):
     # deployed in DigitalOcean
     database_url = os.getenv("DATABASE_URL")
-    database = databases.Database(database_url)
+
+    # have to disable cert verification due to DigitalOcean's use of self-signed certs
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+    context.verify_mode = ssl.CERT_NONE
+    database = databases.Database(database_url, ssl=context)
+
     engine = sqlalchemy.create_engine(
         database_url,
         connect_args={"sslmode": "require"}
