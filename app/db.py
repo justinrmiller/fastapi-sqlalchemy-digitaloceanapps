@@ -2,21 +2,23 @@ import sqlalchemy
 import databases
 import os
 
-# SQLAlchemy specific code, as with any other app
-if os.getenv("DATABASE_URL"):
-    # deployed in DigitalOcean
-    DATABASE_URL = os.getenv("DATABASE_URL")
-else:
-    # local dev
-    DATABASE_URL = "sqlite:///./test.db"
-
-database = databases.Database(DATABASE_URL)
-
 metadata = sqlalchemy.MetaData()
 
-engine = sqlalchemy.create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+if os.getenv("database_url"):
+    # deployed in DigitalOcean
+    database_url = os.getenv("database_url")
+    database = databases.Database(database_url)
+    engine = sqlalchemy.create_engine(
+        database_url
+    )
+else:
+    # local dev
+    database_url = "sqlite:///./test.db"
+    database = databases.Database(database_url)
+    engine = sqlalchemy.create_engine(
+        database_url,
+        connect_args={"check_same_thread": False}
+    )
 
 notes = sqlalchemy.Table(
     "notes",
