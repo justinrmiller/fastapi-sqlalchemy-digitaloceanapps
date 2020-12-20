@@ -2,8 +2,6 @@ import sqlalchemy
 import databases
 import os
 
-metadata = sqlalchemy.MetaData()
-
 if os.getenv("database_url"):
     # deployed in DigitalOcean
     database_url = os.getenv("database_url")
@@ -19,6 +17,8 @@ else:
         database_url,
         connect_args={"check_same_thread": False}
     )
+
+metadata = sqlalchemy.MetaData()
 
 notes = sqlalchemy.Table(
     "notes",
