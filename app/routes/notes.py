@@ -12,14 +12,14 @@ from app.models.notes import (
 router = APIRouter()
 
 
-@router.get("/", response_model=Notes)
+@router.get("/notes", response_model=Notes)
 async def read_notes():
     query = notes.select()
     retrieved_notes = await database.fetch_all(query)
     return {"notes": retrieved_notes}
 
 
-@router.post("/", response_model=Note)
+@router.post("/notes", response_model=Note)
 async def create_note(note: NoteIn):
     query = notes.insert().values(text=note.text, completed=note.completed)
     last_record_id = await database.execute(query)

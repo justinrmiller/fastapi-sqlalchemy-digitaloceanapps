@@ -2,14 +2,22 @@ from fastapi import FastAPI
 
 from starlette.middleware.cors import CORSMiddleware
 
-# from loguru import logger
+import sys
+import os
+
+from loguru import logger
 
 from .routes import (
     healthcheck,
     notes,
-    root
+    users,
+    token
 )
 from app.db import database
+
+if not os.getenv("SECRET_KEY"):
+    logger.error("Please set the SECRET_KEY variable prior to startup.")
+    sys.exit(0)
 
 app = FastAPI()
 
@@ -24,8 +32,11 @@ app.add_middleware(
 )
 
 app.include_router(healthcheck.router, prefix="/healthcheck")
-app.include_router(notes.router, prefix="/notes")
-app.include_router(root.router, prefix="")
+
+# v1 APIs
+app.include_router(notes.router, prefix="/v1")
+app.include_router(users.router, prefix="/v1")
+app.include_router(token.router, prefix="/v1")
 
 
 @app.on_event("startup")
