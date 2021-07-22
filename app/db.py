@@ -8,7 +8,7 @@ if os.getenv("DATABASE_URL"):
     database_url = os.getenv("DATABASE_URL")
 
     # have to disable cert verification due to DigitalOcean's use of self-signed certs
-    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     context.verify_mode = ssl.CERT_NONE
     database = databases.Database(database_url, ssl=context)
 
