@@ -142,3 +142,9 @@ cython_debug/
 
 # SQLite
 *test.db*
+
+# Secrets for local testing
+secrets.env
+
+# VS Code
+.vscode/
