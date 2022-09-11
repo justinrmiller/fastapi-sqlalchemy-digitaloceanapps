@@ -1,3 +1,4 @@
+from .routes.v1 import notes, token, users
 from fastapi import FastAPI
 
 from starlette.middleware.cors import CORSMiddleware
@@ -8,10 +9,7 @@ import os
 from loguru import logger
 
 from .routes import (
-    healthcheck,
-    notes,
-    users,
-    token
+    healthcheck
 )
 from app.db import database
 
