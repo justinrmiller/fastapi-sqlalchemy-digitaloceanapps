@@ -13,3 +13,14 @@ You need a DigitalOcean account. If you don't already have one, you can sign up 
 Click this button to deploy the app to the DigitalOcean App Platform.
 
  [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/justinrmiller/fastapi-sqlalchemy-doapp/tree/main)
+
+# Mac Instructions
+
+Make sure to install the following (brew commands as examples):
+
+```
+    brew install postgresql
+    brew install libpq
+```
+
+Also have the Rust compiler installed for crypto. You should be able to install it via RustUp.

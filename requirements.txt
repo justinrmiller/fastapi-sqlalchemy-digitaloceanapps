@@ -6,6 +6,7 @@ fastapi==0.82.0
 uvicorn[standard]==0.18.3
 gunicorn==20.1.0
 loguru==0.6.0
+
 async-exit-stack==1.0.1
 async-generator==1.10
 passlib[bcrypt]==1.7.4
