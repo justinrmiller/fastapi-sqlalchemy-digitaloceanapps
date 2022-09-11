@@ -24,3 +24,23 @@ Make sure to install the following (brew commands as examples):
 ```
 
 Also have the Rust compiler installed for crypto. You should be able to install it via RustUp.
+
+# Steps to Deploy:
+
+Note: Make sure to set the env variables SECRET_KEY (generate this) and DATABASE_URL (available in the app after first deploy) in DigitalOcean for the app.
+
+1. Authorize with DigitalOcean:
+    - `doctl auth init`
+
+2. Create the application using the app yaml (this will store the returned ID in .app-id).
+    - `doctl apps create --spec ./.do/app.yaml --format ID --no-header > .app-id`
+
+3. List applications:
+    - `doctl apps list --format "Spec.Name, ID"`
+
+4. Update the application as needed using the ID in .app-id
+    - `doctl apps update <app-id here>`
+
+5. Delete the application to avoid charges.
+	- `doctl apps delete <app-id here> && rm .app-id`
+
