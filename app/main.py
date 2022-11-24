@@ -9,7 +9,7 @@ import os
 from loguru import logger
 
 from .routes import (
-    healthcheck
+    healthcheck, details
 )
 from app.db import database
 
@@ -30,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(healthcheck.router, prefix="/healthcheck")
+app.include_router(details.router, prefix="/details")
 
 # v1 APIs
 app.include_router(notes.router, prefix="/v1")

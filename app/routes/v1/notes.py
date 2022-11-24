@@ -18,9 +18,9 @@ router = APIRouter()
 async def read_notes():
     query = notes.select()
     retrieved_notes = await database.fetch_all(query)
-    
+
     logger.debug(f"Retrieved Notes: {retrieved_notes}")
-    
+
     return {"notes": retrieved_notes}
 
 
@@ -28,9 +28,9 @@ async def read_notes():
 async def read_note(note_id):
     query = notes.select().where(notes.c.id == note_id)
     retrieved_note = await database.fetch_one(query)
-    
+
     logger.debug(f"Retrieved Note: {retrieved_note}")
-    
+
     if not retrieved_note:
         raise HTTPException(status_code=404, detail="Note not found")
     else:
@@ -46,7 +46,7 @@ async def create_note(note: NoteIn):
 
 @router.delete("/notes/{note_id}")
 async def delete_note(note_id: int):
-    query = notes.delete().where(notes.c.id==note_id)
+    query = notes.delete().where(notes.c.id == note_id)
     response = await database.execute(query)
     if response == 1:
         logger.debug(f"Note {note_id} deleted.")
@@ -54,4 +54,3 @@ async def delete_note(note_id: int):
     else:
         logger.debug(f"Unable to delete note {note_id}.")
         raise HTTPException(status_code=404, detail="Note not found")
-

@@ -25,9 +25,32 @@ Make sure to install the following (brew commands as examples):
 
 Also have the Rust compiler installed for crypto. You should be able to install it via RustUp.
 
+# Running locally
+
+Follow the following steps:
+
+1. Add the following to `.env` in the base directory (generate secret key with `openssl rand -hex 32`):
+   ```
+   SECRET_KEY="<secret key here>"
+   GUNICORN_WORKERS=4
+   ENV=dev
+   VERSION=1.0.0
+   ```
+2. Generate certs first using `generate_certs.sh`
+3. Run `make build`
+4. Run `make run`
+
+
 # Steps to Deploy:
 
-Note: Make sure to set the env variables SECRET_KEY (generate this) and DATABASE_URL (available in the app after first deploy) in DigitalOcean for the app.
+Note: Make sure to set the following env variables 
+
+- SECRET_KEY (generate this using `openssl rand -hex 32`, set this in your .env file)
+- DATABASE_URL (available in the app after first deploy) in DigitalOcean for the app
+- ENV (environment you're operating in, e.g. 'stage', 'prod')
+- VERSION (version number of your application)
+
+Then follow these steps:
 
 1. Authorize with DigitalOcean:
     - `doctl auth init`
