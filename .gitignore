@@ -144,7 +144,16 @@ cython_debug/
 *test.db*
 
 # Secrets for local testing
-secrets.env
+.env
 
 # VS Code
 .vscode/
+
+# DigitalOcean
+.app-id
+
+# Certs
+privkey.pem
+server.crt
+server.key
+server.req
